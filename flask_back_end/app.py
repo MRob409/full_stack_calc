@@ -1,20 +1,15 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
 
-# /equation will be endpoint for equation
+# /equation will be endpoint for class Equation
 class Equation(Resource):
-
-    def get(self):
-        # reads json file
-        with open('data/equation.json', 'r') as f:
-            data = json.load(f)
-
-        return data
 
     def post(self):
         # sets arguments that can be parsed
@@ -40,6 +35,15 @@ class Equation(Resource):
                 json.dump(data, f)
                 f.truncate()
             return data
+
+            # evaluate equation
+
+    def get(self):
+        # reads json file
+        with open('data/equation.json', 'r') as f:
+            data = json.load(f)
+
+        return data
 
 # maps Equation class to location /equation
 api.add_resource(Equation, '/equation')

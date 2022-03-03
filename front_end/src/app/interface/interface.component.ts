@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EquationService } from "../service/equation.service";
 
 @Component({
   selector: 'app-interface',
@@ -15,7 +16,7 @@ export class InterfaceComponent implements OnInit {
 
   resulted: boolean = false;
 
-  constructor() {
+  constructor(private equationService: EquationService) {
   }
 
   ngOnInit(): void {
@@ -23,6 +24,11 @@ export class InterfaceComponent implements OnInit {
 
   evaluate() {
     console.log('evaluate')
+    this.equationService.getEquation().subscribe(
+      (response) => console.log(response),
+      (error: any) => console.log(error),
+      () => console.log('Done getting equation'),
+    );
   }
 
   MainDisplay() {

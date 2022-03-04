@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EquationService } from "../service/equation.service";
+import {Equation} from "../equation";
 
 @Component({
   selector: 'app-interface',
@@ -10,9 +11,11 @@ import { EquationService } from "../service/equation.service";
 
 export class InterfaceComponent implements OnInit {
 
-  equation: string[] = ['0'];
+  equationFrontEnd: string[] = ['0'];
   result: number = 0;
   PreviousEquation: string[] = [];
+
+  private equation: Equation = {'equation': ['20X3']}
 
   resulted: boolean = false;
 
@@ -23,23 +26,40 @@ export class InterfaceComponent implements OnInit {
   }
 
   evaluate() {
+
     console.log('evaluate')
-    this.equationService.getEquation().subscribe(
-      (response) => console.log(response),
+
+    //clears equation
+    this.equation.equation.splice((this.equation.equation.length-1),1);
+
+    //assigns front end value to equation
+    this.equation.equation.push(this.equationFrontEnd.join(""))
+    console.log(this.equation.equation)
+
+    // POST request
+    this.equationService.postEquation(this.equation).subscribe(
+      (response) => console.table(response),
       (error: any) => console.log(error),
-      () => console.log('Done getting equation'),
+      () => console.log('Done post equation'),
     );
+
+    // GET request
+    // this.equationService.getEquation().subscribe(
+    //   (response) => console.log(response),
+    //   (error: any) => console.log(error),
+    //   () => console.log('Done getting equation'),
+    // );
   }
 
   MainDisplay() {
-    if (this.equation[0] == 'NaN') {
+    if (this.equationFrontEnd[0] == 'NaN') {
       return 'Malformed expression'
     }
-    else if (this.equation[0] == 'Infinity') {
+    else if (this.equationFrontEnd[0] == 'Infinity') {
       return 'Math error: dividing by 0'
     }
     else {
-      return this.equation.join("");
+      return this.equationFrontEnd.join("");
     }
   }
 
@@ -52,29 +72,29 @@ export class InterfaceComponent implements OnInit {
 
       this.resulted = false;
 
-      this.equation.push('²');
+      this.equationFrontEnd.push('²');
       console.log('Resulted: ' + this.resulted);
     }
 
     else {
-      this.equation.push('²');
-      console.log(this.equation);
+      this.equationFrontEnd.push('²');
+      console.log(this.equationFrontEnd);
     }
   }
 
   SquareRoute() {
 
-    if ((this.equation[0] == '0') && this.equation.length == 1) {
-      this.equation.splice((this.equation.length-1),1);
-      this.equation.push('√');
-      this.equation.push('(');
-      console.log(this.equation);
+    if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
+      this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
+      this.equationFrontEnd.push('√');
+      this.equationFrontEnd.push('(');
+      console.log(this.equationFrontEnd);
     }
 
     else {
-      this.equation.push('√');
-      this.equation.push('(');
-      console.log(this.equation);
+      this.equationFrontEnd.push('√');
+      this.equationFrontEnd.push('(');
+      console.log(this.equationFrontEnd);
     }
 
     if (this.resulted) {
@@ -95,19 +115,19 @@ export class InterfaceComponent implements OnInit {
       this.resulted = false;
     }
 
-    if (this.equation[this.equation.length -1] == '/') {
-      this.equation.splice((this.equation.length-1),1);
-      this.equation.push(x);
-      console.log(this.equation);
+    if (this.equationFrontEnd[this.equationFrontEnd.length -1] == '/') {
+      this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
+      this.equationFrontEnd.push(x);
+      console.log(this.equationFrontEnd);
     }
-    else if (this.equation[this.equation.length -1] == 'X') {
-      this.equation.splice((this.equation.length-1),1);
-      this.equation.push(x);
-      console.log(this.equation);
+    else if (this.equationFrontEnd[this.equationFrontEnd.length -1] == 'X') {
+      this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
+      this.equationFrontEnd.push(x);
+      console.log(this.equationFrontEnd);
     }
     else {
-      this.equation.push(x);
-      console.log(this.equation);
+      this.equationFrontEnd.push(x);
+      console.log(this.equationFrontEnd);
     }
   }
 
@@ -117,13 +137,13 @@ export class InterfaceComponent implements OnInit {
 
       this.resulted = false;
 
-      this.equation.push('-');
-      console.log(this.equation);
+      this.equationFrontEnd.push('-');
+      console.log(this.equationFrontEnd);
     }
 
     else {
-      this.equation.push('-');
-      console.log(this.equation);
+      this.equationFrontEnd.push('-');
+      console.log(this.equationFrontEnd);
     }
   }
 
@@ -133,35 +153,35 @@ export class InterfaceComponent implements OnInit {
       this.resulted = false;
     }
 
-    if (this.equation[this.equation.length -1] == '+' || this.equation[this.equation.length -1] == 'X' || this.equation[this.equation.length -1] == '/') {
-      this.equation.splice((this.equation.length-1),1);
-      this.equation.push('+');
-      console.log(this.equation);
+    if (this.equationFrontEnd[this.equationFrontEnd.length -1] == '+' || this.equationFrontEnd[this.equationFrontEnd.length -1] == 'X' || this.equationFrontEnd[this.equationFrontEnd.length -1] == '/') {
+      this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
+      this.equationFrontEnd.push('+');
+      console.log(this.equationFrontEnd);
     }
-    else if ((this.equation[this.equation.length -1] == '-' && this.equation[this.equation.length -2] == '+') || (this.equation[this.equation.length -1] == '-' && this.equation[this.equation.length -2] == '-')) {
-      this.equation.splice((this.equation.length-2),2);
-      this.equation.push('+');
-      console.log(this.equation);
+    else if ((this.equationFrontEnd[this.equationFrontEnd.length -1] == '-' && this.equationFrontEnd[this.equationFrontEnd.length -2] == '+') || (this.equationFrontEnd[this.equationFrontEnd.length -1] == '-' && this.equationFrontEnd[this.equationFrontEnd.length -2] == '-')) {
+      this.equationFrontEnd.splice((this.equationFrontEnd.length-2),2);
+      this.equationFrontEnd.push('+');
+      console.log(this.equationFrontEnd);
     }
     else {
-      this.equation.push('+');
-      console.log(this.equation);
+      this.equationFrontEnd.push('+');
+      console.log(this.equationFrontEnd);
     }
   }
 
   clear() {
-    this.equation.splice(0,this.equation.length);
-    console.log(this.equation);
-    this.equation.push('0');
+    this.equationFrontEnd.splice(0,this.equationFrontEnd.length);
+    console.log(this.equationFrontEnd);
+    this.equationFrontEnd.push('0');
   }
 
   delete() {
-    this.equation.splice((this.equation.length-1),1);
-    console.log(this.equation);
-    console.log(this.equation.length);
+    this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
+    console.log(this.equationFrontEnd);
+    console.log(this.equationFrontEnd.length);
 
-    if (0==this.equation.length) {
-      this.equation.push('0');
+    if (0==this.equationFrontEnd.length) {
+      this.equationFrontEnd.push('0');
     }
   }
 
@@ -169,14 +189,14 @@ export class InterfaceComponent implements OnInit {
 
     //checks if array is a result and if so removes it
     if (this.resulted) {
-      this.equation.splice(0,this.equation.length);
-      this.equation.push('.');
-      console.log(this.equation);
+      this.equationFrontEnd.splice(0,this.equationFrontEnd.length);
+      this.equationFrontEnd.push('.');
+      console.log(this.equationFrontEnd);
     }
 
     else {
-      this.equation.push('.');
-      console.log(this.equation);
+      this.equationFrontEnd.push('.');
+      console.log(this.equationFrontEnd);
     }
 
     //resets resulted
@@ -185,23 +205,23 @@ export class InterfaceComponent implements OnInit {
 
   LeftBracket () {
     //deletes initial 0
-    if ((this.equation[0] == '0') && this.equation.length == 1) {
-      this.equation.splice((this.equation.length-1),1);
-      console.log(this.equation);
-      this.equation.push('(');
-      console.log(this.equation.length);
+    if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
+      this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
+      console.log(this.equationFrontEnd);
+      this.equationFrontEnd.push('(');
+      console.log(this.equationFrontEnd.length);
     }
 
     //checks if array is a result and if so removes it
     else if (this.resulted) {
-      this.equation.splice(0,this.equation.length);
-      this.equation.push('(');
-      console.log(this.equation);
+      this.equationFrontEnd.splice(0,this.equationFrontEnd.length);
+      this.equationFrontEnd.push('(');
+      console.log(this.equationFrontEnd);
     }
 
     else {
-      this.equation.push('(');
-      console.log(this.equation);
+      this.equationFrontEnd.push('(');
+      console.log(this.equationFrontEnd);
     }
 
     //resets resulted
@@ -210,23 +230,23 @@ export class InterfaceComponent implements OnInit {
 
   RightBracket () {
     //deletes initial 0
-    if ((this.equation[0] == '0') && this.equation.length == 1) {
-      this.equation.splice((this.equation.length-1),1);
-      console.log(this.equation);
-      this.equation.push(')');
-      console.log(this.equation.length);
+    if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
+      this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
+      console.log(this.equationFrontEnd);
+      this.equationFrontEnd.push(')');
+      console.log(this.equationFrontEnd.length);
     }
 
     //checks if array is a result and if so removes it
     else if (this.resulted) {
-      this.equation.splice(0,this.equation.length);
-      this.equation.push(')');
-      console.log(this.equation);
+      this.equationFrontEnd.splice(0,this.equationFrontEnd.length);
+      this.equationFrontEnd.push(')');
+      console.log(this.equationFrontEnd);
     }
 
     else {
-      this.equation.push(')');
-      console.log(this.equation);
+      this.equationFrontEnd.push(')');
+      console.log(this.equationFrontEnd);
     }
 
     //resets resulted
@@ -242,22 +262,22 @@ export class InterfaceComponent implements OnInit {
     let x: string = elementId;
 
     //deletes initial 0
-    if ((this.equation[0] == '0') && this.equation.length == 1) {
-      this.equation.splice((this.equation.length-1),1);
-      this.equation.push(x);
-      console.log(this.equation);
+    if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
+      this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
+      this.equationFrontEnd.push(x);
+      console.log(this.equationFrontEnd);
     }
 
     //checks if array is a result and if so removes it
     else if (this.resulted) {
-      this.equation.splice(0,this.equation.length);
-      this.equation.push(x);
-      console.log(this.equation);
+      this.equationFrontEnd.splice(0,this.equationFrontEnd.length);
+      this.equationFrontEnd.push(x);
+      console.log(this.equationFrontEnd);
     }
 
     else {
-      this.equation.push(x);
-      console.log(this.equation);
+      this.equationFrontEnd.push(x);
+      console.log(this.equationFrontEnd);
     }
 
     //resets resulted

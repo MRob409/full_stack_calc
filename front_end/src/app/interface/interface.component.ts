@@ -25,9 +25,29 @@ export class InterfaceComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  SetPreviousEquation() {
+    if (this.resulted) {
+      //Sets previous equation
+      if (this.equationFrontEnd[0] != 'Infinity' && this.equationFrontEnd[0] != 'NaN') {
+        this.PreviousEquation.push(this.equationFrontEnd[0])
+      }
+    }
+  }
+
   evaluate() {
 
     console.log('evaluate')
+
+    let i: number = 0;
+
+    //Sets previous equation
+    this.PreviousEquation.splice(0,this.PreviousEquation.length);
+    for (i; i < this.equationFrontEnd.length; i++) {
+      this.PreviousEquation.push(this.equationFrontEnd[i]);
+    }
+    this.PreviousEquation.push('=');
+
+    i = 0;
 
     //clears equation
     this.equation.equation.splice((this.equation.equation.length-1),1);
@@ -36,12 +56,19 @@ export class InterfaceComponent implements OnInit {
     this.equation.equation.push(this.equationFrontEnd.join(""))
     console.log(this.equation.equation)
 
+    //clears front end equation
+    this.equationFrontEnd.splice(0,this.equationFrontEnd.length);
+
     // POST request
     this.equationService.postEquation(this.equation).subscribe(
-      (response) => console.table(response),
+      (response) => this.equationFrontEnd.push(response.equation.join("")),
       (error: any) => console.log(error),
       () => console.log('Done post equation'),
     );
+
+    console.log('Front end equation: ' + this.equationFrontEnd);
+
+    this.resulted = true
 
     // GET request
     // this.equationService.getEquation().subscribe(
@@ -68,6 +95,9 @@ export class InterfaceComponent implements OnInit {
   }
 
   square() {
+
+    this.SetPreviousEquation()
+
     if (this.resulted) {
 
       this.resulted = false;
@@ -83,6 +113,8 @@ export class InterfaceComponent implements OnInit {
   }
 
   SquareRoute() {
+
+    this.SetPreviousEquation()
 
     if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
       this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
@@ -105,6 +137,9 @@ export class InterfaceComponent implements OnInit {
   }
 
   DM (event: MouseEvent) {
+
+    this.SetPreviousEquation()
+
     //gets id
     const eventTarget: Element = event.target as Element;
     const elementId: string = eventTarget.id;
@@ -133,6 +168,8 @@ export class InterfaceComponent implements OnInit {
 
   subtract() {
 
+    this.SetPreviousEquation()
+
     if (this.resulted) {
 
       this.resulted = false;
@@ -148,6 +185,8 @@ export class InterfaceComponent implements OnInit {
   }
 
   add() {
+
+    this.SetPreviousEquation()
 
     if (this.resulted) {
       this.resulted = false;
@@ -170,12 +209,18 @@ export class InterfaceComponent implements OnInit {
   }
 
   clear() {
+
+    this.SetPreviousEquation()
+
     this.equationFrontEnd.splice(0,this.equationFrontEnd.length);
     console.log(this.equationFrontEnd);
     this.equationFrontEnd.push('0');
   }
 
   delete() {
+
+    this.SetPreviousEquation()
+
     this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
     console.log(this.equationFrontEnd);
     console.log(this.equationFrontEnd.length);
@@ -186,6 +231,8 @@ export class InterfaceComponent implements OnInit {
   }
 
   decimal() {
+
+    this.SetPreviousEquation()
 
     //checks if array is a result and if so removes it
     if (this.resulted) {
@@ -204,6 +251,9 @@ export class InterfaceComponent implements OnInit {
   }
 
   LeftBracket () {
+
+    this.SetPreviousEquation()
+
     //deletes initial 0
     if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
       this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
@@ -229,6 +279,9 @@ export class InterfaceComponent implements OnInit {
   }
 
   RightBracket () {
+
+    this.SetPreviousEquation()
+
     //deletes initial 0
     if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
       this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
@@ -254,6 +307,8 @@ export class InterfaceComponent implements OnInit {
   }
 
   Numbers (event: MouseEvent) {
+
+    this.SetPreviousEquation()
 
     //gets id
     const eventTarget: Element = event.target as Element;

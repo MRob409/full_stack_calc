@@ -15,7 +15,7 @@ export class InterfaceComponent implements OnInit {
   result: number = 0;
   PreviousEquation: string[] = [];
 
-  private equation: Equation = {'equation': ['20X3']}
+  private equation: Equation = {'equation': ['0']}
 
   resulted: boolean = false;
 

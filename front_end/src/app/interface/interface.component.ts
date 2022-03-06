@@ -25,15 +25,6 @@ export class InterfaceComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  SetPreviousEquation() {
-    if (this.resulted) {
-      //Sets previous equation
-      if (this.equationFrontEnd[0] != 'Infinity' && this.equationFrontEnd[0] != 'NaN') {
-        this.PreviousEquation.push(this.equationFrontEnd[0])
-      }
-    }
-  }
-
   evaluate() {
 
     console.log('evaluate')
@@ -61,7 +52,9 @@ export class InterfaceComponent implements OnInit {
 
     // POST request
     this.equationService.postEquation(this.equation).subscribe(
-      (response) => this.equationFrontEnd.push(response.equation.join("")),
+      (response) => this.equationFrontEnd.push(response.equation.join(""))
+        && this.PreviousEquation.push(response.equation.join(""))
+        && console.table(response),
       (error: any) => console.log(error),
       () => console.log('Done post equation'),
     );
@@ -96,8 +89,6 @@ export class InterfaceComponent implements OnInit {
 
   square() {
 
-    this.SetPreviousEquation()
-
     if (this.resulted) {
 
       this.resulted = false;
@@ -113,8 +104,6 @@ export class InterfaceComponent implements OnInit {
   }
 
   SquareRoute() {
-
-    this.SetPreviousEquation()
 
     if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
       this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
@@ -137,8 +126,6 @@ export class InterfaceComponent implements OnInit {
   }
 
   DM (event: MouseEvent) {
-
-    this.SetPreviousEquation()
 
     //gets id
     const eventTarget: Element = event.target as Element;
@@ -168,8 +155,6 @@ export class InterfaceComponent implements OnInit {
 
   subtract() {
 
-    this.SetPreviousEquation()
-
     if (this.resulted) {
 
       this.resulted = false;
@@ -185,8 +170,6 @@ export class InterfaceComponent implements OnInit {
   }
 
   add() {
-
-    this.SetPreviousEquation()
 
     if (this.resulted) {
       this.resulted = false;
@@ -210,16 +193,12 @@ export class InterfaceComponent implements OnInit {
 
   clear() {
 
-    this.SetPreviousEquation()
-
     this.equationFrontEnd.splice(0,this.equationFrontEnd.length);
     console.log(this.equationFrontEnd);
     this.equationFrontEnd.push('0');
   }
 
   delete() {
-
-    this.SetPreviousEquation()
 
     this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
     console.log(this.equationFrontEnd);
@@ -231,8 +210,6 @@ export class InterfaceComponent implements OnInit {
   }
 
   decimal() {
-
-    this.SetPreviousEquation()
 
     //checks if array is a result and if so removes it
     if (this.resulted) {
@@ -251,8 +228,6 @@ export class InterfaceComponent implements OnInit {
   }
 
   LeftBracket () {
-
-    this.SetPreviousEquation()
 
     //deletes initial 0
     if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
@@ -280,8 +255,6 @@ export class InterfaceComponent implements OnInit {
 
   RightBracket () {
 
-    this.SetPreviousEquation()
-
     //deletes initial 0
     if ((this.equationFrontEnd[0] == '0') && this.equationFrontEnd.length == 1) {
       this.equationFrontEnd.splice((this.equationFrontEnd.length-1),1);
@@ -307,8 +280,6 @@ export class InterfaceComponent implements OnInit {
   }
 
   Numbers (event: MouseEvent) {
-
-    this.SetPreviousEquation()
 
     //gets id
     const eventTarget: Element = event.target as Element;

@@ -307,53 +307,58 @@ class Equation(Resource):
                         if li[i] == '/':
                             print('division')
 
-                            z = i - 1
+                            if li[i + 1] == '0':
+                                li.clear()
+                                li.append('Infinity')
+                            else:
+                                z = i - 1
 
-                            # finds n1
-                            while z >= 0:
-                                if (li[z] == '+') or (li[z] == '-') or (li[z] == '/') or (li[z] == 'X') or (
-                                        li[z] == '²') or (
-                                        li[z] == '√'):
-                                    break
-                                else:
-                                    z -= 1
+                                # finds n1
+                                while z >= 0:
+                                    if (li[z] == '+') or (li[z] == '-') or (li[z] == '/') or (li[z] == 'X') or (
+                                            li[z] == '²') or (
+                                            li[z] == '√'):
+                                        break
+                                    else:
+                                        z -= 1
 
-                            n1 = float(''.join(li[z + 1:i]))
-                            print('n1: ' + str(n1))
+                                n1 = float(''.join(li[z + 1:i]))
+                                print('n1: ' + str(n1))
 
-                            x = z + 1
-                            z = i + 1
+                                x = z + 1
+                                z = i + 1
 
-                            # accounts for -n2
-                            if li[i + 1] == '-':
-                                z = i + 2
+                                # accounts for -n2
+                                if li[i + 1] == '-':
+                                    z = i + 2
 
-                            # finds n2
-                            # loop starting from z, will break if item == +, -, /, X, ², √
-                            while z < len(li):
-                                if (li[z] == '+') or (li[z] == '-') or (li[z] == '/') or (li[z] == 'X') or (
-                                        li[z] == '²') or (
-                                        li[z] == '√'):
-                                    break
-                                else:
-                                    z += 1
+                                # finds n2
+                                # loop starting from z, will break if item == +, -, /, X, ², √
+                                while z < len(li):
+                                    if (li[z] == '+') or (li[z] == '-') or (li[z] == '/') or (li[z] == 'X') or (
+                                            li[z] == '²') or (
+                                            li[z] == '√'):
+                                        break
+                                    else:
+                                        z += 1
 
-                            # n2
-                            n2 = float(''.join(li[i + 1:z]))
-                            print('n2: ' + str(n2))
+                                # n2
+                                n2 = float(''.join(li[i + 1:z]))
+                                print('n2: ' + str(n2))
 
-                            result = n1 / n2
-                            print('result: ' + str(result))
+                                result = n1 / n2
+                                print('result: ' + str(result))
 
-                            li = li[:x] + [str(result)] + li[z:]
-                            print(li)
+                                li = li[:x] + [str(result)] + li[z:]
+                                print(li)
 
-                            # resets i to 0 so can recheck the array
-                            i = 0
+                                # resets i to 0 so can recheck the array
+                                i = 0
 
-                            # signals resulted
-                            resulted = True
-                            print('Resulted: ' + str(resulted))
+                                # signals resulted
+                                resulted = True
+                                print('Resulted: ' + str(resulted))
+
 
                         elif li[i] == 'X':
                             print('multiplication')
@@ -645,55 +650,59 @@ class Equation(Resource):
                         if equation[i] == '/':
                             print('division')
 
-                            z = i - 1
+                            if equation[i + 1] == '0':
+                                equation.clear()
+                                equation.append('Infinity')
+                            else:
+                                z = i - 1
 
-                            # finds n1
-                            while z >= 0:
-                                if (equation[z] == '+') or (equation[z] == '-') or (equation[z] == '/') or (
-                                        equation[z] == 'X') or (
-                                        equation[z] == '²') or (
-                                        equation[z] == '√'):
-                                    break
-                                else:
-                                    z -= 1
+                                # finds n1
+                                while z >= 0:
+                                    if (equation[z] == '+') or (equation[z] == '-') or (equation[z] == '/') or (
+                                            equation[z] == 'X') or (
+                                            equation[z] == '²') or (
+                                            equation[z] == '√'):
+                                        break
+                                    else:
+                                        z -= 1
 
-                            n1 = float(''.join(equation[z + 1:i]))
-                            print('n1: ' + str(n1))
+                                n1 = float(''.join(equation[z + 1:i]))
+                                print('n1: ' + str(n1))
 
-                            x = z + 1
-                            z = i + 1
+                                x = z + 1
+                                z = i + 1
 
-                            # accounts for -n2
-                            if equation[i + 1] == '-':
-                                z = i + 2
+                                # accounts for -n2
+                                if equation[i + 1] == '-':
+                                    z = i + 2
 
-                            # finds n2
-                            # loop starting from z, will break if item == +, -, /, X, ², √
-                            while z < len(equation):
-                                if (equation[z] == '+') or (equation[z] == '-') or (equation[z] == '/') or (
-                                        equation[z] == 'X') or (
-                                        equation[z] == '²') or (
-                                        equation[z] == '√'):
-                                    break
-                                else:
-                                    z += 1
+                                # finds n2
+                                # loop starting from z, will break if item == +, -, /, X, ², √
+                                while z < len(equation):
+                                    if (equation[z] == '+') or (equation[z] == '-') or (equation[z] == '/') or (
+                                            equation[z] == 'X') or (
+                                            equation[z] == '²') or (
+                                            equation[z] == '√'):
+                                        break
+                                    else:
+                                        z += 1
 
-                            # n2
-                            n2 = float(''.join(equation[i + 1:z]))
-                            print('n2: ' + str(n2))
+                                # n2
+                                n2 = float(''.join(equation[i + 1:z]))
+                                print('n2: ' + str(n2))
 
-                            result = n1 / n2
-                            print('result: ' + str(result))
+                                result = n1 / n2
+                                print('result: ' + str(result))
 
-                            equation = equation[:x] + [str(result)] + equation[z:]
-                            print(equation)
+                                equation = equation[:x] + [str(result)] + equation[z:]
+                                print(equation)
 
-                            # resets i to 0 so can recheck the array
-                            i = 0
+                                # resets i to 0 so can recheck the array
+                                i = 0
 
-                            # signals resulted
-                            resulted = True
-                            print('Resulted: ' + str(resulted))
+                                # signals resulted
+                                resulted = True
+                                print('Resulted: ' + str(resulted))
 
                         elif equation[i] == 'X':
                             print('multiplication')

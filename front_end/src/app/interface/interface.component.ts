@@ -57,9 +57,7 @@ export class InterfaceComponent implements OnInit {
         && console.table(response),
       (error: any) => console.log(error),
       () => console.log('Done post equation'),
-    );
-
-    console.log('Front end equation: ' + this.equationFrontEnd);
+    )
 
     this.resulted = true
 

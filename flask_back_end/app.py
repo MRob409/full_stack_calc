@@ -202,16 +202,22 @@ class Equation(Resource):
                         print('Brackets removed: ' + ''.join(li))
 
                     # if list has no operators (for square routes)
-                    while i < len(equation):
-                        if (equation[i] == '√') or (equation[i] == '²') or (equation[i] == 'X') or (
-                                equation[i] == '/') or (
-                                equation[i] == '+') or (equation[i] == '-'):
+                    while i < len(li):
+                        if (li[i] == '√') or (li[i] == '²') or (li[i] == 'X') or (
+                                li[i] == '/') or (
+                                li[i] == '+') or (li[i] == '-'):
+                            print("x")
                             break
                         else:
+                            print("y")
+                            print(len(li))
                             i += 1
 
-                    if i == len(equation) - 1:
-                        result = float(''.join(equation))
+                    print(i)
+
+                    if i == len(li):
+                        print("No operations to be completed")
+                        result = float(''.join(li))
 
                     # Solves each √
                     while i < len(li):
